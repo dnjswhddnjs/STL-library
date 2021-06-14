@@ -1,0 +1,130 @@
+#include <iostream>
+#include <list>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+//list
+//시퀀스 컨테이너(sequence container)의 일종이므로 순서를 유지하는 구조입니다.
+//노드 기반 컨테이너 입니다.
+//이중 연결 리스트(doubly linked list)라고 생각하면 됩니다.
+//앞에 vector, deque과는 다르게 멤버 함수 에서 
+//정렬(sort, merge), 이어붙이기(splice) 가 있습니다.
+//원소를 탐색할때, 임의접근 반복자(at(), []) 는 불가능하고, 
+//양방향 반복자(++, --) 를 이용해서 탐색을 합니다.
+//push_front(), push_back(), pop_front(), pop_back() 멤버 함수를 이용해서 
+//list 양 끝에서 삽입, 삭제가 가능합니다.
+//insert(), erase() 멤버 함수를 통해서 노드 중간에서도 삽입, 삭제가 가능합니다.
+//출처 : https://blockdmask.tistory.com/76?category=249379
+
+bool Predicate(string str) {
+    if (str[1]=='c') return true;
+    else return false;
+}
+
+void PRINT_LIST(list<string>& li) {
+    for (auto& iter : li) {
+        cout << iter << ' ';
+    }
+    cout << endl<<"size: "<<li.size()<<endl<<endl;
+
+}
+
+int main(void)
+{
+    list<string> li1;
+    li1.push_back("aa");
+    li1.push_back("bb");
+    li1.push_back("cc");
+    li1.push_back("cd");
+    li1.push_back("ee");
+    list<string>::iterator iter;
+
+    list<string> li2;
+    li2.push_back("fff");
+    li2.push_back("kkk");
+    li2.push_back("qqq");
+    li2.push_back("www");
+
+    list<string> li3(li2);
+
+    cout << "<li1>" << endl;
+    PRINT_LIST(li1);
+    cout << "<li2>" << endl;
+    PRINT_LIST(li2);
+    cout << "<li3>" << endl;
+    PRINT_LIST(li3);
+
+    cout << "(li1)reverse & push_front & insert----------------" << endl;
+    li1.reverse();  //뒤집기
+    li1.push_front("aa");
+    li1.insert(li1.begin().operator++(), "dd");
+   
+    cout << "<li1>" << endl;
+    PRINT_LIST(li1);
+
+    cout << "(li1)remove(\"aa\")----------------" << endl;
+
+    li1.remove("aa");
+    cout << "<li1>" << endl;
+    PRINT_LIST(li1);
+
+
+    li1.remove_if(Predicate);   //predicate 이용하여 삭제조건 설정
+    li1.push_back("bb");
+    li1.unique();  //접한(양옆의) 원소가 같으면 유일하게 만듭니다.(하나만빼고 삭제)
+
+    cout << "(li1)remove_if & push_back & unique-----------------------" << endl;
+    cout << "<li1>" << endl;
+    PRINT_LIST(li1);
+    cout << "<li2>" << endl;
+    PRINT_LIST(li2);
+
+    list<string>::iterator li1_iter;
+    li1_iter = li1.begin();
+    for (int i = 0;i < 2;i++) {
+        li1_iter++;
+    }
+    list<string>::iterator li2_iter;
+    li2_iter = li2.begin();
+    for (int i = 0;i < 2;i++) {
+        li2_iter++;
+    }
+
+
+    li2.splice(li2_iter, li1, li1.begin(), li1_iter);
+    //잘라내기와 같다.
+    //l1의 [begin,end)에 해당하는 부분을 
+    //li2의 li2_iter 위치에 잘라붙인 다음, 해당 부분을 clear()한다.
+    //li2.splice(li2_iter,li1) 을 하면 li2의 li2_iter 위치에 li1을 전부 잘라붙인다.
+
+    cout << "splice------------------------------" << endl;
+    cout << "<li1>" << endl;
+    PRINT_LIST(li1);
+    cout << "<li2>" << endl;
+    PRINT_LIST(li2);
+    cout << "<li3>" << endl;
+    PRINT_LIST(li3);
+
+    li2.sort(greater<string>());    //첫번째 인자가 가장 크므로 greater
+    li3.sort(greater<string>());
+
+    //default는 오름차순"less<string>()"으로 설정되어있다.
+    //첫번째 인자가 가장작으므로 less
+    cout << "(li2)(li3)sort(내림차순)------------------------------" << endl;
+    cout << "<li2>" << endl;
+    PRINT_LIST(li2);
+    cout << "<li3>" << endl;
+    PRINT_LIST(li3);
+
+    cout << "(li2.merge(li3,greater<string>())(내림차순)-----------------------------" << endl;
+    //merge는 반드시 정렬이 되어있어야만 가능하다.
+    //li3을 li2에 붙인다음, li3을 clear()한다.
+    li2.merge(li3, greater<string>());
+    cout << "<li2>" << endl;
+    PRINT_LIST(li2);
+
+
+ 
+}
+
