@@ -30,6 +30,7 @@ int main(void)
     v4.assign(5, v1.back());    //v1의 맨뒤 원소로 5개의 원소를 할당
 
     vector<pair<string, int>>::iterator iter;
+    //vector<pair<string, int>>::const_iterator coniter;  const 선언 
     vector<pair<string, int>>::reverse_iterator riter;
 
     v2.pop_back();
