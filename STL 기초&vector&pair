@@ -1,0 +1,141 @@
+#include <iostream>
+#include <utility>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+
+int main(void)
+{
+    int a = 5;
+
+    vector < pair<string, int>>v1(a,make_pair("aa",12));
+    vector < pair<string, int>>v2(v1);
+    vector < pair<string, int>>v3=v2;
+    vector < pair<string, int>>v4;
+
+    v1[1] = make_pair("bb", 34);
+    v1[2] = make_pair("cc", 56);
+    v1[3] = make_pair("dd", 78);
+    v1[4] = make_pair("ee", 910);
+
+    v4.assign(5, v1.back());    //v1의 맨뒤 원소로 5개의 원소를 할당
+
+    vector<pair<string, int>>::iterator iter;
+    vector<pair<string, int>>::reverse_iterator riter;
+
+    v2.pop_back();
+    cout << v2.front().first << v2.front().second << endl;
+    cout << v2.back().first << v2.back().second << endl;
+    cout << v2.size() << endl;
+
+    //반복자 활용1
+    for (auto& iter : v2) {
+        cout << iter.first<<iter.second << endl;
+    }
+
+    //begin과 front의 차이
+    v1.begin()->first;
+    v1.front().first;
+
+    //반복자 활용2
+    for (iter = v1.begin(); iter != v1.end(); iter++) {   //end는 마지막 원소 다음을 가리킴
+        cout << iter->first<<iter->second << endl;
+    }
+    cout << endl;
+
+    //size-type 활용
+    for (vector<pair<string,int>>::size_type i = 0; i < v4.size(); i++) {
+        cout << v4[i].first<<v4[i].second << " ";
+    }
+    cout << endl << endl;
+
+    //auto 활용
+    for (auto i = 0; i < v4.size(); i++) {
+        cout << v4[i].first << v4[i].second << " ";
+    }
+    cout << endl << endl;
+
+
+    //역반복자
+    for (riter = v1.rbegin(); riter != v1.rend(); riter++) {
+        cout << riter->first << riter->second << endl;
+    }
+
+    //resize 활용
+    v2.resize(10,make_pair("default",-1));
+    for (int i = 0;i < 10;i++) {
+        cout<<v2[i].first<<v2[i].second << endl;
+    }
+
+    //reserve활용
+    v2.reserve(1000);
+     
+    // reserve와 resize의 차이
+    //(1)reserve()는 공간이 예약된다.
+
+    //배열을 만들때 int array[크기] 하는것과 같다.
+    //만약 앞으로 데이터가 자주 추가된다면 벡터가 가득 찼을때 스스로 공간을 늘리지 않기 때문에 성능을 더 향상할 수 있다.
+    //만약 전부 찬상태에서 또 집어넣으면 늘어난다.
+
+
+    //(2)resize()는 공간 예약 + 안의 모든 공간을 특정한 값으로 채운다.
+
+    //변수를 만들때 쓰레기값이 없게 하기위해 NULL로 초기화 하는것과 비슷하다.ex) int array[10] = { 0 , }
+    //현재보다 큰 공간을 예약하면 그만큼 더 집어넣는다.ex) 5개가 들어있는 상태에서 resize(10)하면 5개가 더들어감 -> 5 + 5 = 10
+    //용량이 딱 정해져 있다.더들어 오게 된다면 버려지게 된다.
+
+    //swap =>원소 및 capacity까지 바꿈
+    v3.swap(v1);
+    for (int i = 0;i < 5;i++) {
+        cout << v1[i].first << v1[i].second << endl;
+    }
+    cout << endl;
+    for (int i = 0;i < 5;i++) {
+        cout << v3[i].first << v3[i].second << endl;
+    }
+
+    //erase & insert
+    iter = v3.begin() + 1;
+    v3.erase(iter);
+    cout << endl;
+
+    v3.resize(10);
+    iter = v3.begin() + 1;
+
+    v3.insert(iter, make_pair("qqqqq", 123));   //pair 임시객체 활용1
+    pair<string, int> p("wwwwww", 346);
+    v3.insert(v3.begin() + 1, p);
+
+    v3.insert(v3.begin() + 4, pair<string, int>("eeeeee", 346));    //pair 임시객체 활용2
+
+
+    sort(v3.begin(), v3.end());
+    //만약 첫번째 인자가 같으면 두번째 인자로 sort
+
+
+    for (int i = 0;i < v3.size();i++) {
+        cout << v3.at(i).first << v3.at(i).second << endl;  //at는 범위검사까지 하므로 속도가 느리다
+    }
+
+
+
+    cout << v3.capacity()<<endl;
+    //임시객체를 만든뒤 swap을 이용해 v3의 capacity를 0으로 만들기
+    vector<pair<string, int>>().swap(v3);
+    cout << v3.capacity() << endl;
+
+    cout<<v1.size()<<' ' << v1.capacity() << endl;
+    if (v1.empty()) cout << "EMPTY" << endl;
+    else cout << "NOT EMPTY" << endl;
+    v1.clear();
+    //모든 원소를 제거합니다.
+
+    cout << v1.size() << ' ' << v1.capacity() << endl;
+    //clear 이후에도 capacity는 유지, empty는 size 기준
+    if (v1.empty()) cout << "EMPTY" << endl;
+    else cout << "NOT EMPTY" << endl;
+
+
+}
