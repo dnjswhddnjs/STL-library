@@ -1,0 +1,129 @@
+#include <iostream>
+#include <set>
+using namespace std;
+
+//출처:https://blockdmask.tistory.com/80?category=249379 [개발자 지망생]
+//연관컨테이너들의 공통적인 특징은 아래와 같습니다.
+//1. 노드 기반 컨테이너
+//2. 균형 이진트리로 구현
+//3. 멤버 변수, 생성자 등이 99프로 같습니다.
+
+//Set
+//Key라 불리는 원소들의 집합
+//key값은 중복이 허용 되지않습니다
+//원소가 insert 멤버 함수에 의해 삽입이 되면, 원소는 자동으로 정렬 됩니다.
+//default 정렬기준은 less(오름차순) 입니다.
+
+//Multiset
+//set container 와 달리 중복된 key 값을 저장 할 수 있습니다.
+//ms.insert(k) 시에.set에서는 insert의 return 값이  pair<iterator, bool> 객체로 나왔지만, 
+// multiset에서는 중복이 가능하므로 insert의 return 값이 삽입한 원소 k 의 위치를 가리키는 반복자 입니다.
+//set에서 의미없게 사용되던.lower_bound(), upper_bound(), equal_range() 멤버 변수가
+//multiset에서는 좀더 유용하게 사용됩니다.
+
+
+void PRINT_SET(multiset<int> S) {
+	for (auto& iter : S) {
+		cout << iter << ' ';
+	}
+	cout << endl << endl;
+}
+
+void PRINT_SET(set<int> S) {
+	for (auto& iter : S) {
+		cout << iter << ' ';
+	}
+	cout << endl << endl;
+}
+
+void PRINT_SET(set<int, greater<int>> S) {
+	for (auto& iter : S) {
+		cout << iter << ' ';
+	}
+	cout << endl << endl;
+}
+
+int main() {
+	set<int> S1;	//오름차순 정렬(디폴트값)
+
+	set<int,greater<int>> S2;//내림차순	
+	set<pair<int, string>> PS;
+
+	S1.insert(1);
+	S1.insert(4);
+	S1.insert(6);
+	S1.insert(5);
+	S1.insert(3);
+
+	S2.insert(1);
+	S2.insert(4);
+	S2.insert(6);
+	S2.insert(5);
+	S2.insert(3);
+	
+	
+	cout << "오름차순(디폴트) : "<< typeid(S1.value_comp()).name() << endl;
+	PRINT_SET(S1);
+
+	cout << "내림차순 : "<<typeid(S2.key_comp()).name() << endl;
+	PRINT_SET(S2);
+
+
+	//find
+	cout << "*S1.find(3) :";
+	cout << *S1.find(3) << endl;
+	cout << "S1.count(3) :" << S1.count(3) << endl << endl;
+
+	if (S1.find(123) == S1.end()) {
+		cout << "원소 123이 없다면 S1.end()와 같은 반복자를 반환" << endl;
+	}
+	cout << endl;
+	cout << "삽입의 리턴값으로 pair<iterator, bool> 반환 " << endl;
+	pair<set<int>::iterator, bool> INSERT_RESULT = S1.insert(3);
+
+	cout << "*(INSERT_RESULT.first) : " << *(INSERT_RESULT.first) << endl;
+	if (INSERT_RESULT.second == false)
+		cout << "삽입실패" << endl;
+	else
+		cout << "삽입성공" << endl;
+	cout << endl;
+
+	cout << "삽입의 리턴값으로 pair<iterator, bool> 반환 " << endl;
+	INSERT_RESULT = S1.insert(99);
+	cout << "*(INSERT_RESULT.first) : " << *(INSERT_RESULT.first) << endl;
+	if (INSERT_RESULT.second == false)
+		cout << "삽입실패" << endl;
+	else
+		cout << "삽입성공" << endl;
+	cout << endl;
+	
+	PRINT_SET(S1);
+
+
+	set<int>::iterator iter=S1.end();
+
+	S1.insert(iter, 2);
+	PRINT_SET(S1);
+	//S1.lower_bound(k) -> k이상인 수가 처음 나타나는 위치의 반복자를 반환
+	cout<<"*(S1.lower_bound(3)) : " << *(S1.lower_bound(3)) << endl;
+	//S1.upper_bound(k) -> k초과의 수가 처음 나타나는 위치의 반복자를 반환
+	cout<<"*(S1.upper_bound(3)) : " << *(S1.upper_bound(3)) << endl;
+
+	S1.erase(S1.begin(), S1.end());
+	
+
+	multiset<int> MS;
+	MS.insert(1);
+	MS.insert(2);
+	MS.insert(2);
+	MS.insert(3);
+	PRINT_SET(MS);
+	cout << "MS.insert(2) 삽입의 리턴값으로 iterator 반환 " << endl;
+	multiset<int>::iterator MS_INSERT_RESULT = MS.insert(2);
+	cout << "*MS_INSERT_RESULT :" << *MS_INSERT_RESULT << endl;
+	PRINT_SET(MS);
+
+	cout << "*(MS.lower_bound(2)) : " << *(MS.lower_bound(2)) << endl;	//여기서 MS.lower_bound(2)는 두번째 원소를 가리킨다.
+	cout << "*(MS.upper_bound(2)) : " << *(MS.upper_bound(2)) << endl;  //여기서 MS.upper_bound(2)는 다섯번째 원소를 가리킨다.
+
+}
