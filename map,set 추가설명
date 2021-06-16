@@ -1,0 +1,57 @@
+#include <iostream>
+#include <map>
+using namespace std;
+
+//출처: https://blockdmask.tistory.com/100?category=249379 [개발자 지망생]
+
+//클래스, 구조체를 map, set의 키값으로 만드는 방법.
+//바로바로 operator < 를 재정의 해주기만 하면 클래스들을 <, > 기호를 통해서 대소비교가 가능해지므로
+//정렬이 가능해지므로 map, set의 key값으로 class, struct를 사용할 수 있습니다.!
+
+
+
+
+class Rec {
+private:
+
+public:
+	int width;
+	int height;
+	Rec(int w, int h)
+		:width(w), height(h) {}
+	bool operator<(const Rec& ref) const;
+};
+
+bool Rec::operator<(const Rec& ref) const{
+	if (width * height < ref.width * ref.height)
+		return true;
+	else
+		return false;
+}
+
+
+void PRINT(map<Rec,string> m) {
+	cout << "m.size() :" << m.size() << endl;
+	map<int, string>::iterator iter;
+	for(auto& iter : m) {
+		cout<<'[' <<iter.first.width<<','<<iter.first.height<<']'<<' '<< iter.second << endl;
+	}
+	cout<< endl;
+}
+
+int main() {
+
+	map<Rec, string> m;
+
+	m.insert(make_pair(Rec(1,1), "aa"));
+	m.insert(make_pair(Rec(6, 6), "bb"));
+	m.insert(make_pair(Rec(3, 3), "cc"));
+
+	PRINT(m);
+
+
+
+
+
+
+}
