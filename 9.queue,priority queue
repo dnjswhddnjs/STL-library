@@ -1,0 +1,91 @@
+#include <iostream>
+#include <queue>
+#include <list>
+using namespace std;
+
+//출처: https://blockdmask.tistory.com/100?category=249379 [개발자 지망생]
+
+//queue
+//queue container는 default 는 deque container 기반으로 설정 되어있습니다. 
+//list container 에 붙어서 사용 가능합니다. (vector container 불가능.)
+//vector container가 불가능한 이유 : queue 자료구조 특성상 뒤에서 삽입하고 앞에서 빼야하는데(FIFO) 
+//vector는 앞에서 빼는 동작을 지원해 주지 않기 때문입니다.
+//back과 front를 통해 원소에 접근
+
+//priority_queue
+//내부적으로는 <algorithm>에 있는 힙 관련 함수들을 사용하여 구현되어있습니다.
+//내부구조 default 는 vector container 기반으로 설정되어 있습니다.
+//정렬기준 default는 내림차순(less<>) 기반으로 설정 되어있습니다.
+//back과 front가 아닌 top을 통해 원소에 접근
+
+
+void PRINT(queue<int> q) {
+	cout << "q.size() :" << q.size() << endl;
+	while(!q.empty()){
+		cout << q.front() << endl;
+		q.pop();
+	}
+	cout<< endl;
+}
+
+void PRINT(queue<string, list<string>> q) {
+	cout << "q.size() :" << q.size() << endl;
+	while (!q.empty()) {
+		cout << q.front() << endl;
+		q.pop();
+	}
+	cout << endl;
+}
+
+void PRINT(priority_queue<int, vector<int>, greater<int>> q) {
+	cout << "pq.size() :" << q.size() << endl;
+	while (!q.empty()) {
+		cout << q.top() << endl;
+		q.pop();
+	}
+	cout << endl;
+}
+
+int main() {
+
+
+	queue<int> q1;
+
+	queue<string, list<string>> q2;
+
+	q1.push(1);
+	q1.push(3);
+	q1.push(2);
+
+	cout << "q1.front() :" << q1.front() << endl;
+	cout << "q1.back() :" << q1.back() << endl;
+
+	PRINT(q1);
+
+	q2.push("aa");
+	q2.push("cc");
+	q2.push("bb");
+
+	PRINT(q2);
+
+	queue<int>().swap(q1);
+	queue<string, list<string>>().swap(q2);
+
+
+	priority_queue<int> pq1;
+	//내부 컨테이너 변경
+	priority_queue<int, vector<int>> pq2;	//(=priority_queue<int> pq2)  <- default;
+	priority_queue<int, deque<int>> pq3;
+	priority_queue<int, list<int>> pq4;
+
+	//정렬기준 변경
+	priority_queue<int, vector<int>, greater<int>> pq5; //less<int> <- default
+	pq5.push(2);
+	pq5.push(4);
+	pq5.push(1);
+	pq5.push(5);
+	pq5.push(3);
+
+	PRINT(pq5);
+
+}
