@@ -1,0 +1,42 @@
+#include <iostream>
+#include <stack>
+#include <vector>
+#include <list>
+using namespace std;
+
+//출처: https://blockdmask.tistory.com/100?category=249379 [개발자 지망생]
+
+//스택
+//deque container 기반으로 작동
+//기본 생성자 형식은 stack< [Data Type] > [변수 이름];
+//내부 컨테이너 구조를 바꾸는 형식은 stack <[Data Type], [Container Type]>[변수 이름];
+
+
+void PRINT(stack<pair<int, string>, vector<pair<int, string>>> st) {
+	cout << "st.size() :" << st.size() << endl;
+	while(!st.empty()) {
+		cout << st.top().first <<' '<<st.top().second<< endl;
+		st.pop();
+	}
+	cout<< endl;
+}
+
+
+int main() {
+
+	stack<pair<int, string>, vector<pair<int, string>>> st;
+	
+	st.push(pair<int, string>(1, "aa"));
+	st.push(make_pair(2,"bb"));
+	st.push(make_pair(3, "cc"));
+
+	PRINT(st);
+
+	st.push(pair<int, string>(1, "aa"));
+	st.push(make_pair(2, "bb"));
+	st.push(make_pair(3, "cc"));
+	stack<pair<int, string>, vector<pair<int, string>>>().swap(st);	//st 지우기
+	cout << "st.size() : " << st.size() << endl;
+
+
+}
