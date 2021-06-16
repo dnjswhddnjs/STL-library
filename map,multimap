@@ -1,0 +1,98 @@
+#include <iostream>
+#include <map>
+using namespace std;
+
+//출처: https://blockdmask.tistory.com/100?category=249379 [개발자 지망생]
+
+//map
+//Associative - 연관 컨테이너(associative container) 중 하나입니다.
+//노드 기반으로 이루어져있고 균형 이진 트리 구조입니다.
+//map은 key와 value로 이루어져있으며 이는 pair 객체 형태로 저장됩니다.
+//Unique Key - key는 고유한 값이므로 중복이 불가능 합니다. (중복 key는 multimap 에서 가능합니다.)
+//Ordered - map도 set과 마찬가지로 삽입이 되면서 key를 기준으로 자동으로 정렬이 됩니다. (default는 less / 오름차순 입니다.)
+//Allocator - aware - map container는 저장공간의 필요에 따라서 allocator 객체를 사용합니다. (동적할당 합니다.)
+//내부 구현은 검색,삽입, 삭제가 O(log n)인 레드블랙트리로 구성되어 있음
+
+//multimap
+//map 과는 다르게 operator [] 를 사용해서 원소(pair<key, value>)를 추가 또는 수정이 불가능 합니다.
+//key의 중복이 가능하므로, upper_bound,lower_bound,equal_range 가 유용하게 사용됩니다.
+void PRINT(map<int,string> m) {
+	cout << "m.size() :" << m.size() << endl;
+	map<int, string>::iterator iter;
+	for(auto& iter : m) {
+		cout << iter.first << ' ' << iter.second << endl;
+	}
+	cout<< endl;
+}
+void PRINT(map<int, string,greater<int>> m) {
+	cout << "m.size() :" << m.size() << endl;
+	map<int, string>::iterator iter;
+	for (auto& iter : m) {
+		cout << iter.first << ' ' << iter.second << endl;
+	}
+	cout << endl;
+}
+void PRINT(multimap<int, string, less<int>> m) {
+	cout << "m.size() :" << m.size() << endl;
+	map<int, string>::iterator iter;
+	for (auto& iter : m) {
+		cout << iter.first << ' ' << iter.second << endl;
+	}
+	cout << endl;
+}
+
+int main() {
+
+	map<int, string> m1;
+
+	m1.insert(make_pair(1, "aa"));
+	m1.insert(pair<int, string>(3, "cc"));
+	m1.insert(pair<int, string>(2, "bb"));
+
+	PRINT(m1);
+
+	map<int, string,greater<int>> m2;
+	m2.insert(make_pair(1, "aa"));
+	m2.insert(pair<int, string>(3, "cc"));
+	m2.insert(pair<int, string>(2, "bb"));
+
+	PRINT(m2);
+
+	map<int, string, greater<int>>::iterator iter;
+	
+	cout << (*m2.find(2)).first<<' '<<(*m2.find(2)).second << endl;
+	if (m2.find(99) == m2.end())
+		cout << "못찼겠다 꾀꼬리";
+
+	//map은 operator[] 를 사용하여 원소(key,value)를 추가 또는 수정이 가능!
+	m2[3] = "qqqqq";	//수정
+	m2[6] = "zzzzz";	//추가
+	PRINT(m2);
+
+
+	multimap<int, string, less<int>> mm;
+	mm.insert(make_pair(1, "aa"));
+	mm.insert(make_pair(2, "b"));
+	mm.insert(make_pair(2, "bb"));
+	mm.insert(make_pair(2, "bbb"));
+	mm.insert(make_pair(2, "bbbb"));
+	mm.insert(pair<int, string>(3, "cc"));
+
+	PRINT(mm);
+	//multimap은 operator[] 를 사용하여 원소(key,value)를 추가 또는 수정이 불가능!
+	//mm[1] = "sdf";
+	//mm[5] = "dfgg";
+
+	//mm.equal_range(key);
+	//- key 값에 해당하는 원소의 "범위" 를 pair 객체로 반환합니다.
+	//- pair 객체의 first 는 key 값에 해당하는 원소 값이 처음나타나는 반복자 반환. (lower_bound)
+	//- pair 객체의 second 는 key 값에 해당하는 원소를 초과하는 값이 처음 나타나는 반복자 반환 (upper_bound)
+
+	cout << "(*mm.lower_bound(2)).second :" << (*mm.lower_bound(2)).second << endl;
+	cout << "(*mm.upper_bound(2)).second :" << (*mm.upper_bound(2)).second << endl;
+	cout << "(*mm.equal_range(2).first).second :" << (*mm.equal_range(2).first).second << endl;
+	cout << "(*mm.equal_range(2).second).second :" << (*mm.equal_range(2).second).second << endl;
+
+
+
+}
