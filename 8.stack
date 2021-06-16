@@ -3,10 +3,16 @@
 #include <vector>
 #include <list>
 using namespace std;
+//출처1: http://tcpschool.com/cpp/cpp_container_adapter
+//출처2: https://blockdmask.tistory.com/100?category=249379 [개발자 지망생]
 
-//출처: https://blockdmask.tistory.com/100?category=249379 [개발자 지망생]
+//container adapter
+//=>stack, queue, priority_queue
+//기존 컨테이너의 인터페이스를 제한하여 만든 기능이 제한되거나 변형된 컨테이너를 의미합니다.
+//이러한 컨테이너 어댑터는 각각의 기초가 되는 클래스의 인터페이스를 제한하여, 특정 형태의 동작만을 수행하도록 합니다.
+//단, 반복자를 지원하지 않으므로 STL 알고리즘에서는 사용할 수 없습니다.
 
-//스택
+//stack
 //deque container 기반으로 작동
 //기본 생성자 형식은 stack< [Data Type] > [변수 이름];
 //내부 컨테이너 구조를 바꾸는 형식은 stack <[Data Type], [Container Type]>[변수 이름];
