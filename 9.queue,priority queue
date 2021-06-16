@@ -15,7 +15,7 @@ using namespace std;
 //priority_queue
 //내부적으로는 <algorithm>에 있는 힙 관련 함수들을 사용하여 구현되어있습니다.
 //내부구조 default 는 vector container 기반으로 설정되어 있습니다.
-//정렬기준 default는 내림차순(less<>) 기반으로 설정 되어있습니다.
+//정렬기준 default는 내림차순(less<>) 기반으로 설정 되어있습니다.(top에 가장 큰 값이 온다)
 //back과 front가 아닌 top을 통해 원소에 접근
 
 
@@ -38,6 +38,15 @@ void PRINT(queue<string, list<string>> q) {
 }
 
 void PRINT(priority_queue<int, vector<int>, greater<int>> q) {
+	cout << "pq.size() :" << q.size() << endl;
+	while (!q.empty()) {
+		cout << q.top() << endl;
+		q.pop();
+	}
+	cout << endl;
+}
+
+void PRINT(priority_queue<int> q) {
 	cout << "pq.size() :" << q.size() << endl;
 	while (!q.empty()) {
 		cout << q.top() << endl;
@@ -77,6 +86,16 @@ int main() {
 	priority_queue<int, vector<int>> pq2;	//(=priority_queue<int> pq2)  <- default;
 	priority_queue<int, deque<int>> pq3;
 	priority_queue<int, list<int>> pq4;
+
+
+	pq1.push(2);
+	pq1.push(4);
+	pq1.push(1);
+	pq1.push(5);
+	pq1.push(3);
+
+	PRINT(pq1);
+
 
 	//정렬기준 변경
 	priority_queue<int, vector<int>, greater<int>> pq5; //less<int> <- default
