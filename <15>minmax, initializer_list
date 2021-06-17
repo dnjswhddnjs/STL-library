@@ -1,0 +1,40 @@
+#include <iostream>
+#include <algorithm>
+#include <list>
+#include <utility>
+using namespace std;
+
+//출처: https://blockdmask.tistory.com/100?category=249379 [개발자 지망생]
+
+//minmax
+//1. 인자를 두개 받는 minmax() 함수
+//
+//template<class T>
+//pair<const T&, const T&> minmax(const T& a, const T& b);
+//
+//
+//2. 리스트를 인수로 받는 minmax() 함수
+//
+//template<class T>
+//pair<const T&, const T&> minmax(initializer_list<T> ilist);
+
+//pair의 first : 최소값
+//pair의 second : 최대값
+
+
+
+int main() {
+	pair<int, int> num;
+	num = minmax(1, 2);
+	cout <<"min:"<< num.first << ' ' <<"max:"<< num.second << endl;
+
+	num = minmax({ 1,6,8,5,88,5 });
+	cout << "min:" << num.first << ' ' << "max:" << num.second << endl;
+
+	initializer_list<int> ilist = { 1,6,8,5,88,5 };
+	num = minmax(ilist);
+	cout << "min:" << num.first << ' ' << "max:" << num.second << endl;
+
+
+
+}
