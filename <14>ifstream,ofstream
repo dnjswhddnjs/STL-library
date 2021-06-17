@@ -1,0 +1,121 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+using namespace std;
+
+//출처: https://blockdmask.tistory.com/100?category=249379 [개발자 지망생]
+
+//ifstream
+// 
+//ifstream == input file stream == = file -> program
+//(1)open
+//함수원형: void open(const char* fileName, ios_base::openmode mode = ios_base::in);	//default->ios_base::in
+//함수원형: void open(const string& fileName, ios_base::openmode mode = ios_base::in);	//default->ios_base::in
+//ios_base::in - 파일을 read할 목적으로 open할 것이다.
+//ios_base::out - 파일에 write할 목적으로 open할 것이다.
+//ios_base::binary - 파일을 바이너리 형태로 open할 것이다
+//
+//(2)is_open
+//함수원형 : bool is_open() const;
+//
+//(3)close
+//함수원형 : void close();
+//
+//(4)get - 한글자씩 읽기
+//함수원형 : istream & get(char& c);
+//
+//(5)getline - 한줄씩 읽기(한줄의 기준은 '\n' 문자열의 끝을 알리는 개행 문자가 올때 까지, 혹은 파일의 끝을 알리는 EOF를 만날때 까지 입니다)
+//함수원형 : istream & getline(char* str, streamsize len);
+// 읽어온 줄을 char * 형의 str에 저장하기 때문에, 바로 읽어온 줄을 string에 저장하려면 string헤더에 존재하는 getline 함수를 이용하면 된다.
+//
+//(6)eof - 파일의 끝이 나오면 true를 반환하고 아니면 false를 반환
+//함수원형 : bool eof() const;
+
+//ofstream
+// 
+//ofstream == output file stream == = program -> file
+//(1)open
+//함수원형: void open(const char* fileName, ios_base::openmode mode = ios_base::out);	//default->ios_base::out
+//함수원형: void open(const string& fileName, ios_base::openmode mode = ios_base::out);	//default->ios_base::out
+//ios_base::in - 파일을 read할 목적으로 open할 것이다.
+//ios_base::out - 파일에 write할 목적으로 open할 것이다.
+//ios_base::binary - 파일을 바이너리 형태로 open할 것이다
+//
+//(2)is_open
+//(3)close
+//(4)write - 첫번째 매개변수로 받은 캐릭터 포인터 타입의 문자열의 n만큼의 길이만큼 파일에 wrtie
+//함수원형: ostream& write(const char* str, streamsize n);
+//매개변수 str은 문자열이기 때문에, 실제로 파일에 write할 때는 널문자를 뺀 실제길이만큼을 n으로 설정해주어야 함
+//ex> str="abcd" 라면 n이 4여야함
+
+//ifstream만 사용하고 싶다면 <ifstream>헤더 사용
+//ofstream만 사용하고 싶다면 <ofstream>헤더 사용
+//둘다 사용하고 싶다면 <fstream>헤더 사용
+
+
+
+
+
+int main() {
+
+	ifstream readFile;
+	readFile.open("word.txt", ios_base::in);	//==readFile.open("word.txt");
+
+	cout << "현재위치 : "<<readFile.tellg() << endl;
+	readFile.seekg(0, ios_base::end);
+	cout << "파일의길이 : "<<readFile.tellg() << endl;
+
+
+	readFile.seekg(0, ios_base::beg);
+	cout << "현재위치 : " << readFile.tellg() << endl;
+
+
+
+	//글자단위 읽기
+	while (readFile.is_open() && !readFile.eof()) {
+		char c;
+		readFile.get(c);
+
+		cout << c;
+	}
+	cout << endl;
+	readFile.clear();					//한번 eof에 도달했다면 eofbit이라는 플래그가 켜지기 때문에, clear를 해줘야 seekg가 제대로 작동한다.
+	readFile.seekg(0,ios_base::beg);	//위치 지정자를 맨 앞으로 옮긴다.	(readFile.end는 맨뒤)
+	cout << "현재위치 : " << readFile.tellg() << endl;
+
+		
+	//줄단위 읽기
+	while (readFile.is_open() && !readFile.eof()) {
+		char str[256];
+		readFile.getline(str,256);
+
+		cout << str << endl;
+	}
+	readFile.clear();					//한번 eof에 도달했다면 eofbit이라는 플래그가 켜지기 때문에, clear를 해줘야 seekg가 제대로 작동한다.
+	readFile.seekg(0, ios_base::beg);	//위치 지정자를 맨 앞으로 옮긴다.	(readFile.end는 맨뒤)
+	cout << "현재위치 : " << readFile.tellg() << endl;
+
+	vector<string> v;
+	while (readFile.is_open() && !readFile.eof()) {
+		string str;
+		getline(readFile, str);
+		v.push_back(str);
+	}
+	readFile.close();
+	for (auto elem : v)
+		cout << elem << endl;
+
+
+
+	ofstream writeFile;
+	writeFile.open("aaaa.txt", ios_base::out);		//==writeFile.open("aaaa.txt");
+	if (writeFile.is_open()) {						//파일이 존재하지 않는다면, 새로 만든다.
+		char str[5] = "abcd";
+		writeFile.write(str, 4);
+
+		string str2 = "efghijklmnop";
+		writeFile.write(str2.c_str(), str2.size());
+	}
+	writeFile.close();
+}
