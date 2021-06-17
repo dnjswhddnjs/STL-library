@@ -1,0 +1,63 @@
+#include <iostream>
+#include <typeinfo>
+#include <algorithm>
+#include <array>
+using namespace std;
+
+//출처: https://blockdmask.tistory.com/100?category=249379 [개발자 지망생]
+
+//람다 표현식
+//함수 이름이 없어지고 동작만 있는 함수를 람다 함수, 이름 없는 함수, 람다 표현식이라고 합니다. 
+//
+//형태
+//[]		( )			{  }			( )
+//[캡처]	(매개변수)	{ 함수 동작 }	(호출인자)
+
+//호출인자는 람다함수를 호출할때 사용하므로, 람다함수를 정의만 할때는 ()를 생략할 수 있다.
+//ex1> 함수 정의
+//[](int a,int b){return a+b};
+//ex2> 함수 정의 및 호출
+//[](int a,int b){return a+b}(10,20);
+
+//매개변수의 유무, 반환형의 유무에 따라 4가지 종류의 람다 표현식을 만들어 낼 수 있음
+//람다 '표현식'이므로 끝에 ;를 붙어주어야 한다.
+
+//캡처는 람다 외부에 정의되어있는 변수나 상수를 람다 내부에서 사용하기 위한 것
+//call by value
+//[변수1,변수2]
+//call by reference 
+//[&변수1,&변수2]
+//모든 외부 변수에 대해 복사
+//[=]
+//모든 외부 변수에 대해 참조
+//[&]
+//ex>[=,&변수1] : 변수 1을 제외한 나머지 변수는 복사, 변수1은 참조
+
+//람다함수를 특정 변수에 넣어두는법
+//	=>auto를 사용하면 가능
+
+int main() {
+	
+	int num1 = 10;
+	int num2 = 20;
+	int num3 = 5;
+
+	printf("num1 : %d \nnum2 : %d\nnum3 : %d\n\n", num1, num2, num3);
+
+	[&,num3](int num) {
+		num1 += num;
+		num1 += num3;
+	}(num2);
+	printf("num1 : %d \nnum2 : %d\nnum3 : %d\n\n", num1, num2, num3);
+
+	auto func1 = [](int a, int b) {return a * b;};
+	printf("func1(10,20):%d\n", func1(10, 20));
+
+	//sort의 compare 함수의 세번째 인자로 람다표현식 사용 가능
+	array<int, 5> arr = { 5,1,4,2,3 };
+	sort(arr.begin(), arr.end(), [](int a, int b) {if (a > b)return true; else return false;});
+	//sort(arr.begin(), arr.end(), greater<int>());
+	
+	for (auto elem : arr)
+		cout << elem << ' ';
+}
