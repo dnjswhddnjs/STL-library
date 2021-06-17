@@ -1,0 +1,62 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+//출처: https://blockdmask.tistory.com/100?category=249379 [개발자 지망생]
+
+//입출력 형태지정
+
+//std::setw(n)
+//출력시 길이를 n(int)으로 지정.
+//std::setw 출력에 사용할 필드의 넓이를 설정합니다.즉 가로길이를 지정할 수 있습니다.
+
+//std::setfill(c)
+//비어있는 공간을 c(char)로 채워주는 함수입니다.
+//setfill 함수로 한번 설정을 해주면 설정이 계속해서 적용이 되는 특징을 가지고 있습니다.
+//한번 설정한 후에 원래대로 돌려주어야 합니다.
+
+//std::left
+//왼쪽 정렬 설정
+//
+//std::right
+//오른쪽 정렬 설정
+
+//precision(n)
+//가장 큰 자리수부터 n(int)자리를 출력한다.
+
+//fixed
+//소수점 자리수를 고정한다.
+
+int main() {
+
+
+	int a = 1;
+
+
+	cout << setw(10) << a << endl;
+	cout << setw(10) << setfill('$') << a << endl;
+	cout << setw(10) << setfill('9') << a << endl;
+
+	cout << setw(10) <<left<< a << endl;
+	cout << setw(10) << right << a << endl;
+
+	float b = 12.34567;
+
+	cout.precision(2);
+	cout << "cout.precision(2)"<<endl;
+	cout << b << endl;
+
+	cout.precision(4);
+	cout << "cout.precision(4)" << endl;
+	cout << b << endl << endl;;
+
+	cout << fixed;
+	cout.precision(2);
+	cout << "cout<<fixed + cout.precision(3)" << endl;
+	cout << b << endl;
+
+	cout.precision(4);
+	cout << "cout<<fixed + cout.precision(6)" << endl;
+	cout << b << endl;
+
+}
