@@ -1,0 +1,51 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+using namespace std;
+
+//출처: https://blockdmask.tistory.com/100?category=249379 [개발자 지망생]
+
+//reverse
+//
+//함수정의
+//template <class BidirectionalIterator>
+//void reverse(BidirectionalIterator first, BidirectionalIterator last)
+//{
+//	while ((first != last) && first != --last)
+//	{
+//		std::iter_swap(first++, last);
+//	}
+//}
+//[first, last) 요소들을 iter_swap이라는 함수를 이용하여 reverse
+
+
+void PRINT(vector<int> v) {
+	for (auto& elem : v) {
+		cout << elem << ' ';
+	}
+	cout << endl;
+}
+
+int main() {
+	
+	string str = "abcde";
+
+	cout << "before reverse : "<<str << endl;
+	reverse(str.begin(), str.end());
+	cout << "after reverse : " << str << endl;
+
+	vector<int> v;
+	v.push_back(1);
+	v.push_back(2);
+	v.push_back(3);
+	v.push_back(4);
+	v.push_back(5);
+
+	cout << "before reverse : ";
+	PRINT(v);
+	reverse(v.begin(), v.end());
+	cout << "after reverse : ";
+	PRINT(v);
+
+}
