@@ -1,0 +1,59 @@
+#include <iostream>
+#include <typeinfo>
+using namespace std;
+
+//출처: https://blockdmask.tistory.com/100?category=249379 [개발자 지망생]
+
+//RTTI
+
+//Run Time Type information 
+//프로그램 실행중에 실시간으로 데이터의 타입을 얻어올 때 사용
+//typeid(변수)
+//typeid(데이터 타입)
+//위와 같은 형태로 사용
+//typeid의 리턴값의 형은 const std::type_info& (클래스)에 해당한다.
+//name()이라는 멤버 함수를 통해서 타입의 이름을 얻을 수 있습니다.
+
+class Parent {
+public:
+	Parent() {}
+	virtual ~Parent() {}
+};
+
+class Child : public Parent {
+public:
+	Child() {}
+};
+
+
+int main() {
+	auto num = 10;
+	auto str = "sdsdf";
+	const type_info& info1 = typeid(num);
+	
+	const type_info& info2 = typeid(double);
+
+	const type_info& info3 = typeid(str);
+
+	const type_info& info4 = typeid(string);
+
+	cout << "info1.name() :" << info1.name() << endl;
+	cout << "info2.name() :" << info2.name() << endl;
+	cout << "info3.name() :" << info3.name() << endl;
+	cout << "info4.name() :" << info4.name() << endl;
+
+	//dynamic_cast 를 이용하여 다운 캐스팅이 가능한 이유는 바로 
+	//RTTI 기술을 사용해서 실제 객체가 무엇인지 알아서 판단하도록 해주는 RTTI기술 때문이다.
+	// 
+	// 부모 클래스 선언
+	Parent* pParent = new Parent();
+	cout << typeid(pParent).name() << endl;
+
+	// 다운 캐스팅
+	Child* pChild = dynamic_cast<Child*>(pParent);
+	cout << typeid(pChild).name() << endl;
+
+	return 0;
+
+
+}
